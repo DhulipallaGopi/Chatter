@@ -13,7 +13,8 @@ const ChatPage = () => {
   const chatContainerRef = useRef(null);
 
   useEffect(() => {
-    const newSocket = SocketIOClient('http://localhost:3000');
+    const socket = io("https://chatter-backend-95wi.onrender.com/");
+    
     setSocket(newSocket);
 
     newSocket.on('chat', (chatMessage) => {
