@@ -3,41 +3,32 @@ import { Link, useParams } from 'react-router-dom';
 import Header from './Header';
 import '../App.css';
 import { FaPaperPlane } from 'react-icons/fa';
-import { io } from "socket.io-client";
+import { io } from 'socket.io-client'; // <-- Only once
 
+// Initialize socket only once here
+const socket = io("https://chatter-backend-95wi.onrender.com", {
+  transports: ['websocket', 'polling'],
+});
 
 const ChatPage = () => {
   const { username } = useParams();
   const [message, setMessage] = useState('');
   const [chats, setChats] = useState([]);
-  const [socket, setSocket] = useState(null);
   const chatContainerRef = useRef(null);
 
   useEffect(() => {
-    // Connect to your deployed backend directly
-    const newSocket = io("https://chatter-backend-95wi.onrender.com", {
-      transports: ["websocket", "polling"]
-    });
-
-    setSocket(newSocket);
-
-    newSocket.on('chat', (chatMessage) => {
+    // Listen for messages
+    socket.on('chat', (chatMessage) => {
       setChats((prevChats) => [...prevChats, chatMessage]);
     });
 
-    return () => newSocket.disconnect();
+    // Cleanup on unmount
+    return () => socket.disconnect();
   }, []);
-
-  // Auto-scroll last message
-  useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
-  }, [chats]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (message.trim() && socket) {
+    if (message.trim()) {
       socket.emit('chat', { sender: username, message });
       setMessage('');
     }
@@ -47,7 +38,6 @@ const ChatPage = () => {
     <main>
       <Header />
       <Link to='/' className='logout-link'>LOGOUT</Link>
-
       <div className='chat-container' ref={chatContainerRef}>
         {chats.map((chat, index) => (
           <div
@@ -61,7 +51,6 @@ const ChatPage = () => {
           </div>
         ))}
       </div>
-
       <div className='chatbox-container'>
         <div className='chatbox'>
           <form onSubmit={handleSubmit}>
