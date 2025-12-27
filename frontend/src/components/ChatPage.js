@@ -3,13 +3,12 @@ import { Link, useParams } from 'react-router-dom';
 import Header from './Header';
 import '../App.css';
 import { FaPaperPlane } from 'react-icons/fa';
-import { io } from 'socket.io-client'; // <-- Only once
+import { io } from 'socket.io-client';
 
-// Initialize socket only once here
-const socket = io("https://chatter-xqrb.onrender.com", {
+// Use environment variable for backend URL
+const socket = io(process.env.REACT_APP_BACKEND_URL, {
   transports: ['websocket', 'polling'],
 });
-
 
 const ChatPage = () => {
   const { username } = useParams();
@@ -18,12 +17,10 @@ const ChatPage = () => {
   const chatContainerRef = useRef(null);
 
   useEffect(() => {
-    // Listen for messages
     socket.on('chat', (chatMessage) => {
       setChats((prevChats) => [...prevChats, chatMessage]);
     });
 
-    // Cleanup on unmount
     return () => socket.disconnect();
   }, []);
 
@@ -60,7 +57,12 @@ const ChatPage = () => {
               placeholder='Enter a new message'
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              onFocus={() => chatContainerRef.current.scrollTo({ top: chatContainerRef.current.scrollHeight, behavior: 'smooth' })}
+              onFocus={() =>
+                chatContainerRef.current.scrollTo({
+                  top: chatContainerRef.current.scrollHeight,
+                  behavior: 'smooth',
+                })
+              }
             />
             <button type='submit'>
               <FaPaperPlane />
@@ -71,5 +73,6 @@ const ChatPage = () => {
     </main>
   );
 };
+//adding commet
 
 export default ChatPage;
