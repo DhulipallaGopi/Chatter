@@ -14,7 +14,7 @@ const ChatPage = () => {
 
   useEffect(() => {
     // Connect to your deployed backend directly
-    const newSocket = io("https://chatter-backend-95wi.onrender.com", {
+    const newSocket = io("https://chatter-backend-95wi.onrender.com/", {
       transports: ["websocket", "polling"]
     });
 
