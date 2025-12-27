@@ -3,7 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import Header from './Header';
 import '../App.css';
 import { FaPaperPlane } from 'react-icons/fa';
-import { io } from 'socket.io-client';
+import { io } from "socket.io-client";
+
 
 const ChatPage = () => {
   const { username } = useParams();
