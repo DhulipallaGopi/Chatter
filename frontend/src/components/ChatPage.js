@@ -10,6 +10,7 @@ const socket = io("https://chatter-27lu.onrender.com", {
   transports: ['websocket', 'polling'],
 });
 
+
 const ChatPage = () => {
   const { username } = useParams();
   const [message, setMessage] = useState('');
