@@ -6,7 +6,7 @@ import { FaPaperPlane } from 'react-icons/fa';
 import { io } from 'socket.io-client'; // <-- Only once
 
 // Initialize socket only once here
-const socket = io("https://chatter-27lu.onrender.com", {
+const socket = io("https://chatter-xqrb.onrender.com", {
   transports: ['websocket', 'polling'],
 });
 
