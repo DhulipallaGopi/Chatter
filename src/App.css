@@ -1,0 +1,213 @@
+:root {
+  --bg-color: #0b0f19;
+  --panel-bg: rgba(23, 32, 49, 0.8);
+  --accent-primary: #2dd4bf; /* Teal */
+  --accent-secondary: #0ea5e9; /* Sky Blue */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --my-msg-bg: #134e4a; /* Deep Teal */
+  --not-my-msg-bg: #1e293b; /* Slate Blue */
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  transition: all 0.2s ease-in-out;
+}
+
+body {
+  background-color: var(--bg-color);
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(170, 75%, 7%, 1) 0, transparent 50%), 
+    radial-gradient(at 100% 100%, hsla(220, 75%, 10%, 1) 0, transparent 50%);
+  color: var(--text-primary);
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- HEADER ---------- */
+.head {
+  padding: 1.5rem;
+  background: rgba(11, 15, 25, 0.5);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.icon {
+  height: 40px;
+  filter: drop-shadow(0 0 10px var(--accent-primary));
+}
+
+/* ---------- LOGIN FORM ---------- */
+.form-container {
+  margin: auto;
+  width: 90%;
+  max-width: 400px;
+  background: var(--panel-bg);
+  padding: 2.5rem;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.login-form input {
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+  font-size: 1rem;
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.2);
+}
+
+/* ---------- BUTTONS ---------- */
+button {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: #0b0f19;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+  box-shadow: 0 10px 15px -3px rgba(45, 212, 191, 0.4);
+}
+
+/* ---------- CHAT INTERFACE ---------- */
+.chat-container {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-bottom: 140px; /* reserve space for input */
+}
+
+.my-chat, .notmy-chat {
+  max-width: 70%;
+  padding: 1rem 1.25rem;
+  border-radius: 20px;
+  line-height: 1.5;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.my-chat {
+  align-self: flex-end;
+  background: var(--my-msg-bg);
+  color: #ccfbf1;
+  border-bottom-right-radius: 4px;
+}
+
+.notmy-chat {
+  align-self: flex-start;
+  background: var(--not-my-msg-bg);
+  color: var(--text-primary);
+  border-bottom-left-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.user {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--accent-primary);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* ---------- BOTTOM INPUT ---------- */
+.chatbox-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem;
+  background: linear-gradient(to top, var(--bg-color) 80%, transparent);
+  display: flex;
+  justify-content: center;
+}
+
+.chatbox {
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  background: #1e293b;
+  padding: 0.5rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chatbox form {
+  display: flex;
+  width: 100%;
+}
+
+.chatbox input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 0.75rem 1rem;
+  outline: none;
+  border-radius: 12px 0 0 12px; /* round left side only */
+}
+
+.chatbox button {
+  border-radius: 0 12px 12px 0; /* round right side only */
+  padding: 0 1rem;
+  margin: 0;
+}
+
+/* ---------- LOGOUT ---------- */
+.logout-link {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.logout-link:hover {
+  color: #f87171;
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 600px) {
+  .chat-container { padding: 1rem; }
+  .my-chat, .notmy-chat { max-width: 85%; }
+  .form-container { width: 95%; padding: 1.5rem; }
+  .chatbox {
+    padding: 0.25rem;
+  }
+  .chatbox input {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+  }
+  .chatbox button {
+    padding: 0 0.75rem;
+  }
+}
