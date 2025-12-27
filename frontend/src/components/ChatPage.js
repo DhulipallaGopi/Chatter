@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import Header from './Header';
 import '../App.css';
 import { FaPaperPlane } from 'react-icons/fa';
-import SocketIOClient from 'socket.io-client';
+import { io } from 'socket.io-client';
 
 const ChatPage = () => {
   const { username } = useParams();
@@ -13,15 +13,18 @@ const ChatPage = () => {
   const chatContainerRef = useRef(null);
 
   useEffect(() => {
-    const socket = io("https://chatter-backend-95wi.onrender.com/");
-    
+    // Connect to your deployed backend directly
+    const newSocket = io("https://chatter-backend-95wi.onrender.com", {
+      transports: ["websocket", "polling"]
+    });
+
     setSocket(newSocket);
 
     newSocket.on('chat', (chatMessage) => {
       setChats((prevChats) => [...prevChats, chatMessage]);
     });
 
-    return () => newSocket.close();
+    return () => newSocket.disconnect();
   }, []);
 
   // Auto-scroll last message
@@ -33,7 +36,7 @@ const ChatPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (message.trim()) {
+    if (message.trim() && socket) {
       socket.emit('chat', { sender: username, message });
       setMessage('');
     }
